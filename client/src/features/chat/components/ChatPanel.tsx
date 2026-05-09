@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
+import { useChat } from '../hooks/useChat'
 import type { ChatMessage } from '../types'
 import { MessageComposer } from './MessageComposer'
 import { MessageList } from './MessageList'
@@ -9,22 +10,39 @@ export type ChatPanelProps = {
 
 export function ChatPanel({ className = '' }: ChatPanelProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([])
+  const { sendMessage, isSending } = useChat()
 
-  const sorted = useMemo(
-    () => [...messages].sort((a, b) => a.sentAt.localeCompare(b.sentAt)),
-    [messages],
-  )
+  async function handleSend(body: string) {
+    const userMessage: ChatMessage = {
+      id: crypto.randomUUID(),
+      body,
+      author: 'me',
+    }
 
-  function handleSend(body: string) {
-    setMessages((prev) => [
-      ...prev,
-      {
-        id: crypto.randomUUID(),
-        body,
-        sentAt: new Date().toISOString(),
-        author: 'me',
-      },
-    ])
+    const nextHistory = [...messages, userMessage]
+    setMessages(nextHistory)
+
+    try {
+      const reply = await sendMessage(nextHistory)
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: crypto.randomUUID(),
+          body: reply,
+          author: 'ai',
+        },
+      ])
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: crypto.randomUUID(),
+          body: 'Wystąpił błąd podczas wysyłania wiadomości.',
+          author: 'ai',
+        },
+      ])
+    }
   }
 
   return (
@@ -53,8 +71,8 @@ export function ChatPanel({ className = '' }: ChatPanelProps) {
           </div>
         </div>
       </header>
-      <MessageList messages={sorted} />
-      <MessageComposer onSend={handleSend} />
+      <MessageList messages={messages} />
+      <MessageComposer onSend={handleSend} isSending={isSending} />
     </section>
   )
 }

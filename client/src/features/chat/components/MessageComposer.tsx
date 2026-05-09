@@ -2,9 +2,10 @@ import { useState, type FormEvent } from 'react'
 
 type MessageComposerProps = {
   onSend: (body: string) => void
+  isSending?: boolean
 }
 
-export function MessageComposer({ onSend }: MessageComposerProps) {
+export function MessageComposer({ onSend, isSending = false }: MessageComposerProps) {
   const [text, setText] = useState('')
 
   function handleSubmit(e: FormEvent) {
@@ -35,10 +36,10 @@ export function MessageComposer({ onSend }: MessageComposerProps) {
         />
         <button
           type="submit"
-          disabled={!text.trim()}
+          disabled={isSending || !text.trim()}
           className="shrink-0 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 px-4 py-2.5 text-sm font-medium text-white shadow-lg shadow-black/30 transition hover:from-teal-400 hover:to-emerald-500 focus-visible:outline focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 disabled:pointer-events-none disabled:opacity-35"
         >
-          Wyślij
+          {isSending ? 'Wysyłanie...' : 'Wyślij'}
         </button>
       </div>
     </form>
