@@ -26,11 +26,11 @@ namespace api.Controllers
             {
                 try
                 {
-                    string fullPrompt = string.Join("\n", PromptsList.Prompts[0]) + "\n" + request.Prompt;
+                    string prompt = request.Prompt;
 
                     var response = await _geminiClient.Models.GenerateContentAsync(
                         model: "models/gemini-3.1-flash-lite",
-                        contents: fullPrompt
+                        contents: prompt
                     );
                     var result = response.Candidates?[0]?.Content?.Parts?[0]?.Text;
 

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useChat } from '../hooks/useChat'
+import { useRandomPrompt } from '../hooks/useRandomPrompt'
 import type { ChatMessage } from '../types'
 import { MessageComposer } from './MessageComposer'
 import { MessageList } from './MessageList'
@@ -10,6 +11,7 @@ export type ChatPanelProps = {
 
 export function ChatPanel({ className = '' }: ChatPanelProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([])
+  const sessionPrompt = useRandomPrompt()
   const { sendMessage, isSending } = useChat()
 
   async function handleSend(body: string) {
@@ -23,7 +25,7 @@ export function ChatPanel({ className = '' }: ChatPanelProps) {
     setMessages(nextHistory)
 
     try {
-      const reply = await sendMessage(nextHistory)
+      const reply = await sendMessage(nextHistory, sessionPrompt)
 
       setMessages((prev) => [
         ...prev,
