@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { MailBodyParagraph, SimulatedEmail, TextChunk, UserDecision } from '../types'
-import { INBOX_HERO_EMAILS } from '../data/mockEmails'
+import { useInboxEmailsFromApi } from '../hooks/useInboxEmailsFromApi'
 import { collectPhishingLessons, isDecisionCorrect } from '../lessonUtils'
 import { InspectLinkButton } from './InspectLinkButton'
 import { TooltipHighlight } from './TooltipHighlight'
@@ -86,17 +86,63 @@ function EmailRow({ email, selected, decision, onSelect }: EmailRowProps) {
 }
 
 export function InboxHeroPanel() {
-  const emails = INBOX_HERO_EMAILS
+  const { emails, status, errorMessage, refetchInboxEmails } = useInboxEmailsFromApi()
 
-  const [selectedId, setSelectedId] = useState(emails[0]?.id ?? '')
+  const [selectedId, setSelectedId] = useState('')
   const [decisions, setDecisions] = useState<Partial<Record<string, UserDecision>>>({})
+
+  useEffect(() => {
+    if (!emails.length) return
+    setSelectedId(emails[0].id)
+    setDecisions({})
+    // Nowa lista (wejście na stronę lub „Spróbuj ponownie”) = czyste decyzje.
+  }, [emails])
 
   const selected = useMemo(
     () => emails.find((e) => e.id === selectedId) ?? emails[0],
-    [selectedId],
+    [emails, selectedId],
   )
 
-  if (!selected) {
+  const showLoading =
+    status === 'loading' && emails.length === 0
+
+  if (showLoading) {
+    return (
+      <section
+        className="flex min-h-[min(32rem,calc(100dvh-13rem))] flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 shadow-2xl shadow-black/50 ring-1 ring-white/[0.06] sm:flex-1 sm:min-h-[min(38rem,calc(100dvh-12rem))]"
+        aria-busy="true"
+        aria-label="Generowanie skrzynki"
+      >
+        <header className="shrink-0 border-b border-zinc-800 bg-gradient-to-r from-zinc-950 via-zinc-900 to-zinc-950 px-4 py-3 sm:px-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 text-xs font-bold text-white shadow-lg shadow-teal-950/40">
+                IH
+              </div>
+              <div>
+                <h2 className="text-base font-semibold tracking-tight text-zinc-50 sm:text-lg">
+                  Inbox Hero
+                </h2>
+                <p className="text-xs text-zinc-400 sm:text-sm">
+                  Jedno zapytanie do modelu — generowanie 4 wiadomości…
+                </p>
+              </div>
+            </div>
+          </div>
+        </header>
+        <div className="flex flex-1 flex-col items-center justify-center gap-6 px-6 py-16 text-center">
+          <div className="h-12 w-12 animate-spin rounded-full border-2 border-zinc-600 border-t-teal-400 shadow-lg shadow-teal-950/20" />
+          <p className="max-w-xs text-sm text-zinc-400">
+            Jedno żądanie{' '}
+            <span className="font-mono text-xs text-teal-300/90">POST /api/chat/ask</span> — w odpowiedzi
+            pełny JSON ze 4 mailami.
+          </p>
+        </div>
+      </section>
+    )
+  }
+
+  if (!selected || !emails.length) {
     return null
   }
 
@@ -144,6 +190,31 @@ export function InboxHeroPanel() {
           </div>
         </div>
       </header>
+
+      {errorMessage ? (
+        <div className="border-b border-zinc-800 bg-amber-950/30 px-4 py-3 sm:px-5">
+          <p className="text-sm leading-snug text-amber-200/95">{errorMessage}</p>
+          <button
+            type="button"
+            disabled={status === 'loading'}
+            onClick={() => {
+              void refetchInboxEmails()
+            }}
+            className="mt-2 rounded-lg border border-amber-700/70 bg-zinc-900/80 px-3 py-1.5 text-xs font-medium text-amber-100 transition hover:bg-zinc-800 disabled:pointer-events-none disabled:opacity-40"
+          >
+            Spróbuj ponownie (jedno zapytanie)
+          </button>
+        </div>
+      ) : null}
+
+      {status === 'loading' && emails.length > 0 ? (
+        <div
+          className="border-b border-zinc-800 bg-zinc-900/80 px-4 py-2 text-xs text-teal-200/90 sm:px-5"
+          aria-live="polite"
+        >
+          Odświeżanie zestawu… lista zostanie zastąpiona.
+        </div>
+      ) : null}
 
       <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
         <aside
