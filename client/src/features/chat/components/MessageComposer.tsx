@@ -24,7 +24,7 @@ export function MessageComposer({ onSend, isSending = false }: MessageComposerPr
       className="shrink-0 border-t border-zinc-800 bg-zinc-950/95 p-3 backdrop-blur-sm sm:p-4"
     >
       <label htmlFor="chat-input" className="sr-only">
-        Wiadomość
+        Treść wiadomości do sprzedawcy
       </label>
       <div className="flex gap-2 sm:gap-3">
         <input
@@ -34,7 +34,7 @@ export function MessageComposer({ onSend, isSending = false }: MessageComposerPr
           autoComplete="off"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Np. nie rozumiem zadania z lekcji…"
+          placeholder="Np. czy możliwy odbiór osobisty? Stan opon?"
           className="min-w-0 flex-1 rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 transition-colors focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/25"
         />
         <button
@@ -42,7 +42,7 @@ export function MessageComposer({ onSend, isSending = false }: MessageComposerPr
           disabled={isSending || !text.trim()}
           className="shrink-0 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 px-4 py-2.5 text-sm font-medium text-white shadow-lg shadow-black/30 transition hover:from-teal-400 hover:to-emerald-500 focus-visible:outline focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 disabled:pointer-events-none disabled:opacity-35"
         >
-          {isSending ? 'Wysyłanie...' : 'Wyślij'}
+          {isSending ? 'Wysyłanie…' : 'Wyślij wiadomość'}
         </button>
       </div>
     </form>
