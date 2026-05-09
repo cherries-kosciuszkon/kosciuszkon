@@ -1,5 +1,5 @@
-export const serverURL = 'http://localhost:5000'
+export const serverURL = 'http://localhost:5190'
 
 export const apiURL = {
-  chat: `${serverURL}/api/chat`,
+  chat: `${serverURL}/api/chat/ask`,
 }

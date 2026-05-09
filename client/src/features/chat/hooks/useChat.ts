@@ -3,7 +3,7 @@ import { apiURL } from '../../../api/apiURL'
 import type { ChatMessage } from '../types'
 
 type ChatResponse = {
-  message: string
+  answer: string
 }
 
 type ChatPayloadMessage = Pick<ChatMessage, 'body' | 'author'>
@@ -19,12 +19,14 @@ export function useChat() {
         ({ body, author }) => ({ body, author }),
       )
 
+      const messageString = payloadHistory.map(m => `${m.body}: ${m.author}`).join('\n');
+
       const response = await fetch(apiURL.chat, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json', 
         },
-        body: JSON.stringify({ messageHistory: payloadHistory }),
+        body:  JSON.stringify({ prompt: messageString }),
       })
 
       if (!response.ok) {
@@ -32,7 +34,7 @@ export function useChat() {
       }
 
       const data = (await response.json()) as ChatResponse
-      return data.message
+      return data.answer
     } finally {
       setIsSending(false)
     }
