@@ -57,12 +57,20 @@ export default function HomePage() {
           Symulacja rozmowy z oszustem — sprawdź refleks i czujność w bezpiecznym
           środowisku.
         </p>
-        <Link
-          to="/chat"
-          className="mt-10 inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-teal-500 to-emerald-600 px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-teal-950/40 ring-1 ring-white/10 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400 active:brightness-95"
-        >
-          Rozpocznij rozmowę
-        </Link>
+        <div className="mt-10 flex w-full max-w-sm flex-col gap-3 sm:flex-row sm:justify-center">
+          <Link
+            to="/chat"
+            className="inline-flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-teal-500 to-emerald-600 px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-teal-950/40 ring-1 ring-white/10 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400 active:brightness-95"
+          >
+            Rozpocznij rozmowę
+          </Link>
+          <Link
+            to="/sms-lab"
+            className="inline-flex flex-1 items-center justify-center rounded-xl border border-zinc-600 bg-zinc-900/80 px-8 py-3.5 text-base font-semibold text-zinc-100 shadow-lg shadow-black/30 ring-1 ring-white/5 transition hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400 active:brightness-95"
+          >
+            SMS Lab
+          </Link>
+        </div>
       </main>
     </div>
   )
