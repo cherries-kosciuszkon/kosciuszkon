@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useRef, useState, type FormEvent } from 'react'
 
 type MessageComposerProps = {
   onSend: (body: string) => void
@@ -7,6 +7,7 @@ type MessageComposerProps = {
 
 export function MessageComposer({ onSend, isSending = false }: MessageComposerProps) {
   const [text, setText] = useState('')
+  const inputRef = useRef<HTMLInputElement>(null)
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -14,6 +15,7 @@ export function MessageComposer({ onSend, isSending = false }: MessageComposerPr
     if (!t) return
     onSend(t)
     setText('')
+    queueMicrotask(() => inputRef.current?.focus())
   }
 
   return (
@@ -26,6 +28,7 @@ export function MessageComposer({ onSend, isSending = false }: MessageComposerPr
       </label>
       <div className="flex gap-2 sm:gap-3">
         <input
+          ref={inputRef}
           id="chat-input"
           type="text"
           autoComplete="off"
