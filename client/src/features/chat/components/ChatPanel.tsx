@@ -1,19 +1,17 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import type { ChatMessage } from '../types'
 import { MessageComposer } from './MessageComposer'
 import { MessageList } from './MessageList'
 
+export type VerdictChoice = 'scammer' | 'not_scammer'
+
 export type ChatPanelProps = {
   className?: string
+  onVerdict?: (choice: VerdictChoice) => void
 }
 
-export function ChatPanel({ className = '' }: ChatPanelProps) {
+export function ChatPanel({ className = '', onVerdict }: ChatPanelProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([])
-
-  const sorted = useMemo(
-    () => [...messages].sort((a, b) => a.sentAt.localeCompare(b.sentAt)),
-    [messages],
-  )
 
   function handleSend(body: string) {
     setMessages((prev) => [
@@ -48,13 +46,37 @@ export function ChatPanel({ className = '' }: ChatPanelProps) {
               Chat with Robert
             </h2>
             <p className="mt-0.5 text-sm leading-snug text-zinc-400">
-              Is this scammer or not?
+              Oszust czy nie — Twoja decyzja.
             </p>
           </div>
         </div>
       </header>
-      <MessageList messages={sorted} />
+      <MessageList messages={messages} />
       <MessageComposer onSend={handleSend} />
+      {messages.length > 1 ? (
+        <div
+          className="shrink-0 border-t border-zinc-800 bg-zinc-950 px-4 py-3 sm:px-5"
+          role="group"
+          aria-label="Oszust czy nie"
+        >
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => onVerdict?.('scammer')}
+              className="min-h-11 flex-1 cursor-pointer rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2.5 text-sm font-medium text-zinc-300 ring-0 transition hover:scale-[1.02] hover:border-rose-500/80 hover:bg-rose-500/20 hover:text-rose-100 hover:ring-1 hover:ring-rose-500/35 hover:shadow-md hover:shadow-black/20 active:scale-[0.98] focus-visible:outline focus-visible:ring-2 focus-visible:ring-rose-400/90 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 active:bg-zinc-900"
+            >
+              Oszust
+            </button>
+            <button
+              type="button"
+              onClick={() => onVerdict?.('not_scammer')}
+              className="min-h-11 flex-1 cursor-pointer rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2.5 text-sm font-medium text-zinc-300 ring-0 transition hover:scale-[1.02] hover:border-emerald-500/80 hover:bg-emerald-500/20 hover:text-emerald-100 hover:ring-1 hover:ring-emerald-500/35 hover:shadow-md hover:shadow-black/20 active:scale-[0.98] focus-visible:outline focus-visible:ring-2 focus-visible:ring-emerald-400/90 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 active:bg-zinc-900"
+            >
+              Uczciwy
+            </button>
+          </div>
+        </div>
+      ) : null}
     </section>
   )
 }
