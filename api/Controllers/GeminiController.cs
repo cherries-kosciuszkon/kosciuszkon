@@ -22,15 +22,16 @@ namespace api.Controllers
             }
 
             [HttpPost("ask")]
-            public async Task<IActionResult> Ask([FromBody] string prompt)
+            public async Task<IActionResult> Ask([FromBody] AskRequest request)
             {
                 try
-                { 
+                {
+                    string prompt = request.Prompt;
+
                     var response = await _geminiClient.Models.GenerateContentAsync(
                         model: "models/gemini-3.1-flash-lite",
                         contents: prompt
                     );
-
                     var result = response.Candidates?[0]?.Content?.Parts?[0]?.Text;
 
                     return Ok(new { answer = result });
