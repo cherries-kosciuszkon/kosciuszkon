@@ -1,23 +1,24 @@
-﻿{
-  "$schema": "https://json.schemastore.org/launchsettings.json",
+{
   "profiles": {
     "http": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:5190",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "GOOGLE_API_KEY": "AIzaSyDb1LZDIUGJ3m-onDFyDn-CX6KIGWBMo-o"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5190"
     },
     "https": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:7269;http://localhost:5190",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7269;http://localhost:5190"
     }
-  }
+  },
+  "$schema": "https://json.schemastore.org/launchsettings.json"
 }
