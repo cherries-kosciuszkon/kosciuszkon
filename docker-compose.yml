@@ -6,6 +6,8 @@ services:
     container_name: cyber_backend
     ports:
       - "5190:5190"
+    env_file:
+      - .env
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
 
