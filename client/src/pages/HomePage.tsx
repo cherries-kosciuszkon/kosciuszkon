@@ -4,7 +4,6 @@ import { AboutModal } from '../features/common/AboutModal'
 
 const LOGO_SRC = '/logo_white.png'
 
-// Ikona Info pozostaje tutaj, jeśli używasz jej tylko w przycisku na Home
 function InfoIcon(props: { className?: string }) {
   return (
     <svg
