@@ -12,7 +12,11 @@ export type ChatPanelProps = {
   onVerdictReadyChange?: (ready: boolean) => void
 }
 
-const OFFER_IMAGE_SRC = '/chat/offer_image.png'
+const CHAT_IMAGES_BASE = '/chat/'
+
+function offerImageSrc(imageName: string) {
+  return `${CHAT_IMAGES_BASE}${imageName}.jpg`
+}
 
 export function ChatPanel({
   className = '',
@@ -74,7 +78,7 @@ export function ChatPanel({
       <header className="shrink-0 border-b border-zinc-800 bg-zinc-900/90">
         <div className="flex items-start gap-3 px-3 py-3 sm:px-4 sm:py-3.5">
           <img
-            src={OFFER_IMAGE_SRC}
+            src={offerImageSrc(sessionPrompt.imageName)}
             alt="Zdjęcie z ogłoszenia"
             className="mt-0.5 h-11 w-11 shrink-0 rounded-lg object-cover shadow-md ring-1 ring-zinc-700/80 ring-inset"
             width={44}
