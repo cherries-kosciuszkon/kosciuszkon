@@ -1,19 +1,36 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { AboutModal } from '../features/common/AboutModal'
 
 const LOGO_SRC = '/logo_white.png'
 
-function CyberBackdrop() {
+// Ikona Info pozostaje tutaj, jeśli używasz jej tylko w przycisku na Home
+function InfoIcon(props: { className?: string }) {
   return (
-    <div
-      className="pointer-events-none absolute inset-0 overflow-hidden"
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.75}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={props.className}
       aria-hidden="true"
     >
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 16v-4" />
+      <path d="M12 8h.01" />
+    </svg>
+  )
+}
+
+function CyberBackdrop() {
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
       <div className="absolute -left-1/4 top-1/4 h-[28rem] w-[28rem] rounded-full bg-teal-500/15 blur-[100px] motion-safe:animate-pulse" />
       <div className="absolute -right-1/4 bottom-0 h-[24rem] w-[24rem] rounded-full bg-emerald-600/10 blur-[90px]" />
-      <svg
-        className="absolute inset-0 h-full w-full opacity-[0.07]"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <svg className="absolute inset-0 h-full w-full opacity-[0.07]" xmlns="http://www.w3.org/2000/svg">
         <rect width="100%" height="100%" fill="url(#grid)" />
       </svg>
       <pre className="absolute -left-4 top-8 max-w-none select-none font-mono text-[11px] leading-relaxed text-teal-400/25 sm:text-xs">
@@ -38,11 +55,26 @@ session.hardening=ON`}
   )
 }
 
-
 export default function HomePage() {
+  const [aboutOpen, setAboutOpen] = useState(false)
+
   return (
     <div className="relative min-h-dvh overflow-hidden bg-black text-zinc-100 antialiased">
       <CyberBackdrop />
+      
+      <button
+        type="button"
+        onClick={() => setAboutOpen(true)}
+        className="fixed right-4 top-4 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-zinc-600/80 bg-zinc-900/90 text-teal-400 shadow-lg shadow-black/40 ring-1 ring-white/[0.06] backdrop-blur-sm transition hover:border-teal-500/50 hover:bg-zinc-800 hover:text-teal-300 focus-visible:outline focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+        aria-label="O stronie"
+        aria-expanded={aboutOpen}
+      >
+        <InfoIcon className="h-5 w-5" />
+      </button>
+
+      {/* Komponent Modal */}
+      <AboutModal isOpen={aboutOpen} onClose={() => setAboutOpen(false)} />
+
       <main className="relative z-10 mx-auto flex min-h-dvh max-w-lg flex-col items-center justify-center px-6 py-16 text-center">
         <img
           src={LOGO_SRC}
@@ -54,19 +86,18 @@ export default function HomePage() {
           Jesteś pewien, że wykryjesz oszustwo?
         </p>
         <p className="mt-3 max-w-sm text-pretty text-sm text-zinc-500">
-          Symulacja rozmowy z oszustem — sprawdź refleks i czujność w bezpiecznym
-          środowisku.
+          Symulacja rozmowy z oszustem — sprawdź refleks i czujność w bezpiecznym środowisku.
         </p>
         <div className="mt-10 flex w-full max-w-sm flex-col gap-3 sm:flex-row sm:justify-center">
           <Link
             to="/chat"
-            className="inline-flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-teal-500 to-emerald-600 px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-teal-950/40 ring-1 ring-white/10 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400 active:brightness-95"
+            className="inline-flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-teal-500 to-emerald-600 px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-teal-950/40 ring-1 ring-white/10 transition hover:brightness-110 active:brightness-95"
           >
             Rozpocznij rozmowę
           </Link>
           <Link
             to="/sms-lab"
-            className="inline-flex flex-1 items-center justify-center rounded-xl border border-zinc-600 bg-zinc-900/80 px-8 py-3.5 text-base font-semibold text-zinc-100 shadow-lg shadow-black/30 ring-1 ring-white/5 transition hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400 active:brightness-95"
+            className="inline-flex flex-1 items-center justify-center rounded-xl border border-zinc-600 bg-zinc-900/80 px-8 py-3.5 text-base font-semibold text-zinc-100 shadow-lg shadow-black/30 ring-1 ring-white/5 transition hover:bg-zinc-800 active:brightness-95"
           >
             SMS Lab
           </Link>
