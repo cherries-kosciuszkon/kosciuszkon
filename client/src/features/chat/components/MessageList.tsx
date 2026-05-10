@@ -37,8 +37,7 @@ export function MessageList({ messages, isTyping }: MessageListProps) {
             Napisz do sprzedawcy
           </p>
           <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-            Poniżej zobaczysz wątek z ogłoszenia — tak jak na portalu z
-            ofertami. Zadaj pytanie o przedmiot albo ustal szczegóły odbioru.
+            Zadaj pytanie o przedmiot albo ustal szczegóły odbioru.
           </p>
         </div>
       </div>
