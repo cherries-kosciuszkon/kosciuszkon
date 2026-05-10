@@ -5,3 +5,9 @@ export type SmsScenario = {
   isScam: boolean
   explanation: string
 }
+
+export type SmsRoundResult = {
+  userChoseScam: boolean
+  correct: boolean
+  explanation: string
+}

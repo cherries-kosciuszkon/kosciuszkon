@@ -1,7 +1,16 @@
+import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { SmsChatView } from '../features/sms/components/SmsChatView'
+import { ResultModal } from '../features/modal'
+import {
+  SmsChatView,
+  type SmsChatViewHandle,
+} from '../features/sms/components/SmsChatView'
+import type { SmsRoundResult } from '../features/sms/types'
 
 export default function SmsLabPage() {
+  const chatRef = useRef<SmsChatViewHandle>(null)
+  const [roundResult, setRoundResult] = useState<SmsRoundResult | null>(null)
+
   return (
     <div className="min-h-dvh bg-black text-zinc-100 antialiased">
       <div className="mx-auto max-w-lg px-4 pb-12 pt-6">
@@ -21,8 +30,34 @@ export default function SmsLabPage() {
             Start
           </Link>
         </div>
-        <SmsChatView />
+        <SmsChatView
+          ref={chatRef}
+          onRoundResult={setRoundResult}
+          resultModalOpen={roundResult !== null}
+          onDismissRoundResult={() => setRoundResult(null)}
+        />
       </div>
+
+      {roundResult ? (
+        <ResultModal
+          open
+          onClose={() => setRoundResult(null)}
+          success={roundResult.correct}
+          subtitle={
+            roundResult.correct
+              ? 'Trafnie oceniłeś wiadomość.'
+              : 'To nie była właściwa klasyfikacja — zobacz wyjaśnienie poniżej.'
+          }
+          explanation={roundResult.explanation}
+          nextAction={{
+            label: 'Kolejna wiadomość',
+            onClick: () => {
+              setRoundResult(null)
+              void chatRef.current?.loadNextScenario()
+            },
+          }}
+        />
+      ) : null}
     </div>
   )
 }
