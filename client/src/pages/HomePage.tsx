@@ -76,33 +76,45 @@ export default function HomePage() {
       <AboutModal isOpen={aboutOpen} onClose={() => setAboutOpen(false)} />
 
       <main className="relative z-10 mx-auto flex min-h-dvh max-w-lg flex-col items-center justify-center px-6 py-16 text-center">
-        <img
-          src={LOGO_SRC}
-          alt="Kościuszkon"
-          className="h-[4.5rem] w-auto max-w-[min(315px,92vw)] object-contain sm:h-24 sm:max-w-[min(360px,92vw)] mb-9 sm:mb-12"
-          decoding="async"
-        />
-        <p className="text-balance text-lg leading-snug text-zinc-300 sm:text-xl">
-          Jesteś pewien, że wykryjesz oszustwo?
-        </p>
-        <p className="mt-3 max-w-sm text-pretty text-sm text-zinc-500">
-          Symulacja rozmowy z oszustem — sprawdź refleks i czujność w bezpiecznym środowisku.
-        </p>
-        <div className="mt-10 flex w-full max-w-sm flex-col gap-3 sm:flex-row sm:justify-center">
-          <Link
-            to="/chat"
-            className="inline-flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-teal-500 to-emerald-600 px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-teal-950/40 ring-1 ring-white/10 transition hover:brightness-110 active:brightness-95"
-          >
-            Rozpocznij rozmowę
-          </Link>
+      <img
+        src={LOGO_SRC}
+        alt="Kościuszkon"
+        className="h-[4.5rem] w-auto max-w-[min(315px,92vw)] object-contain sm:h-24 sm:max-w-[min(360px,92vw)] mb-9 sm:mb-12"
+        decoding="async"
+      />
+      <p className="text-balance text-lg leading-snug text-zinc-300 sm:text-xl">
+        Jesteś pewien, że wykryjesz oszustwo?
+      </p>
+      <p className="mt-3 max-w-sm text-pretty text-sm text-zinc-500">
+        Symulacja rozmowy z oszustem — sprawdź refleks i czujność w bezpiecznym środowisku.
+      </p>
+
+      <div className="mt-10 flex w-full max-w-sm flex-col gap-3">
+        
+        <Link
+          to="/chat"
+          className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-teal-500 to-emerald-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-teal-950/40 ring-1 ring-white/10 transition hover:brightness-110 active:scale-[0.98]"
+        >
+          Rozpocznij rozmowę
+        </Link>
+
+        <div className="grid grid-cols-2 gap-3">
           <Link
             to="/sms-lab"
-            className="inline-flex flex-1 items-center justify-center rounded-xl border border-zinc-600 bg-zinc-900/80 px-8 py-3.5 text-base font-semibold text-zinc-100 shadow-lg shadow-black/30 ring-1 ring-white/5 transition hover:bg-zinc-800 active:brightness-95"
+            className="inline-flex items-center justify-center rounded-xl border border-zinc-600 bg-zinc-900/80 px-4 py-3.5 text-sm font-semibold text-zinc-100 shadow-lg shadow-black/30 ring-1 ring-white/5 transition hover:bg-zinc-800 active:scale-[0.98]"
           >
             SMS Lab
           </Link>
+          <Link
+            to="/inbox-hero"
+            className="inline-flex items-center justify-center rounded-xl border border-zinc-600 bg-zinc-900/80 px-4 py-3.5 text-sm font-semibold text-zinc-100 shadow-lg shadow-black/30 ring-1 ring-white/5 transition hover:bg-zinc-800 active:scale-[0.98]"
+          >
+            Inbox Hero
+          </Link>
         </div>
-      </main>
+
+  </div>
+</main>
     </div>
   )
 }
