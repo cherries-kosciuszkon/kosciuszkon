@@ -146,7 +146,7 @@ export function InboxHeroPanel() {
             <div>
               <h2 className="text-base font-semibold text-zinc-50 sm:text-lg">Inbox Hero</h2>
               <p className="text-xs text-zinc-400 sm:text-sm">
-                Phishing Simulator — losowy zestaw 4 zadań z bazy lokalnej.
+                Phishing Simulator — spróbuj ustalić które wiadomości są potencjalnym oszustwem a które są wiarygodne
               </p>
             </div>
           </div>
