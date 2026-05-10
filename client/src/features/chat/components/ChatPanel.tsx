@@ -1,23 +1,37 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useChat } from '../hooks/useChat'
-import { useRandomPrompt } from '../hooks/useRandomPrompt'
 import type { ChatMessage } from '../types'
+import type { ChatSessionPrompt } from '../types/prompt'
 import { MessageComposer } from './MessageComposer'
 import { MessageList } from './MessageList'
 
-export type VerdictChoice = 'scammer' | 'not_scammer'
-
 export type ChatPanelProps = {
   className?: string
-  onVerdict?: (choice: VerdictChoice) => void
+  sessionPrompt: ChatSessionPrompt
+  /** `true` gdy jest co najmniej jedna wiadomość użytkownika i jedna odpowiedź modelu — można oddać werdykt. */
+  onVerdictReadyChange?: (ready: boolean) => void
 }
 
 const OFFER_IMAGE_SRC = '/chat/offer_image.png'
 
-export function ChatPanel({ className = '', onVerdict }: ChatPanelProps) {
+export function ChatPanel({
+  className = '',
+  sessionPrompt,
+  onVerdictReadyChange,
+}: ChatPanelProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([])
-  const sessionPrompt = useRandomPrompt()
   const { sendMessage, isSending } = useChat()
+
+  const onVerdictReadyChangeRef = useRef(onVerdictReadyChange)
+  onVerdictReadyChangeRef.current = onVerdictReadyChange
+
+  useEffect(() => {
+    setMessages([])
+  }, [sessionPrompt.sessionId])
+
+  useEffect(() => {
+    onVerdictReadyChangeRef.current?.(messages.length > 1)
+  }, [messages.length])
 
   async function handleSend(body: string) {
     const userMessage: ChatMessage = {
@@ -73,10 +87,10 @@ export function ChatPanel({ className = '', onVerdict }: ChatPanelProps) {
                 id="chat-panel-title"
                 className="truncate text-sm font-semibold leading-snug text-zinc-50 sm:text-base"
               >
-                Używany rower miejski
+                {sessionPrompt.listedProduct.item}
               </h2>
               <span className="shrink-0 rounded-md bg-teal-500/15 px-2 py-0.5 text-xs font-semibold tabular-nums text-teal-300 ring-1 ring-teal-500/25">
-                450 zł
+                {sessionPrompt.listedProduct.price}
               </span>
             </div>
             <p className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-zinc-500">
@@ -97,30 +111,6 @@ export function ChatPanel({ className = '', onVerdict }: ChatPanelProps) {
       </header>
       <MessageList messages={messages} isTyping={isSending} />
       <MessageComposer onSend={handleSend} isSending={isSending} />
-      {messages.length > 1 ? (
-        <div
-          className="shrink-0 border-t border-zinc-800 bg-zinc-900/70 px-3 py-3 sm:px-4"
-          role="group"
-          aria-label="Twoja ocena tego ogłoszenia"
-        >
-          <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={() => onVerdict?.('scammer')}
-              className="min-h-11 flex-1 cursor-pointer rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2.5 text-sm font-medium text-zinc-300 ring-0 transition hover:scale-[1.02] hover:border-rose-500/80 hover:bg-rose-500/20 hover:text-rose-100 hover:ring-1 hover:ring-rose-500/35 hover:shadow-md hover:shadow-black/20 active:scale-[0.98] focus-visible:outline focus-visible:ring-2 focus-visible:ring-rose-400/90 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 active:bg-zinc-900"
-            >
-              Podejrzana oferta
-            </button>
-            <button
-              type="button"
-              onClick={() => onVerdict?.('not_scammer')}
-              className="min-h-11 flex-1 cursor-pointer rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2.5 text-sm font-medium text-zinc-300 ring-0 transition hover:scale-[1.02] hover:border-emerald-500/80 hover:bg-emerald-500/20 hover:text-emerald-100 hover:ring-1 hover:ring-emerald-500/35 hover:shadow-md hover:shadow-black/20 active:scale-[0.98] focus-visible:outline focus-visible:ring-2 focus-visible:ring-emerald-400/90 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 active:bg-zinc-900"
-            >
-              Wygląda wiarygodnie
-            </button>
-          </div>
-        </div>
-      ) : null}
     </section>
   )
 }

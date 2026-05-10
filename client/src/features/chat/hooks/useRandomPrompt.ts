@@ -8,17 +8,20 @@ function pickRandom<T>(items: readonly T[]): T {
   return items[i] as T
 }
 
-// Generates random prompt
+export function createRandomChatPrompt(): ChatSessionPrompt {
+  const { isScammer, scenario } = pickRandom(PROMPT_SCENARIOS)
+  const { imageName, ...listedProduct } = pickRandom(LISTED_PRODUCTS)
+  return {
+    sessionId: crypto.randomUUID(),
+    isScammer,
+    scenario,
+    sellerName: pickRandom(SELLER_NAMES),
+    listedProduct,
+    imageName,
+  }
+}
+
+/** Losuje prompt na montowanie komponentu (jedna runda). Do kolejnych rund użyj `createRandomChatPrompt`. */
 export function useRandomPrompt(): ChatSessionPrompt {
-  return useMemo(() => {
-    const { isScammer, scenario } = pickRandom(PROMPT_SCENARIOS)
-    const { imageName, ...listedProduct } = pickRandom(LISTED_PRODUCTS)
-    return {
-      isScammer,
-      scenario,
-      sellerName: pickRandom(SELLER_NAMES),
-      listedProduct,
-      imageName,
-    }
-  }, [])
+  return useMemo(() => createRandomChatPrompt(), [])
 }
