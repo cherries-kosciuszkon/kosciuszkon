@@ -5,7 +5,7 @@
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "GOOGLE_API_KEY": "AIzaSyDb1LZDIUGJ3m-onDFyDn-CX6KIGWBMo-o"
+        "GOOGLE_API_KEY": ""
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5190"
