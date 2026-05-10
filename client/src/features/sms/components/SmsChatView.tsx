@@ -141,7 +141,7 @@ export function SmsChatView() {
             type="button"
             disabled={loading || !scenario || roundLocked}
             onClick={() => handleGuess(true)}
-            className="flex-1 rounded-2xl border border-red-500/40 bg-red-950/50 px-5 py-3.5 text-sm font-semibold text-red-100 shadow-lg shadow-red-950/30 transition hover:bg-red-900/50 focus-visible:outline focus-visible:ring-2 focus-visible:ring-red-400 disabled:pointer-events-none disabled:opacity-40"
+            className="min-h-11 flex-1 cursor-pointer rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2.5 text-sm font-medium text-zinc-300 ring-0 transition hover:scale-[1.02] hover:border-rose-500/80 hover:bg-rose-500/20 hover:text-rose-100 hover:ring-1 hover:ring-rose-500/35 hover:shadow-md hover:shadow-black/20 active:scale-[0.98] focus-visible:outline focus-visible:ring-2 focus-visible:ring-rose-400/90 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 active:bg-zinc-900"
           >
             Oszust
           </button>
@@ -149,7 +149,7 @@ export function SmsChatView() {
             type="button"
             disabled={loading || !scenario || roundLocked}
             onClick={() => handleGuess(false)}
-            className="flex-1 rounded-2xl border border-emerald-500/40 bg-emerald-950/40 px-5 py-3.5 text-sm font-semibold text-emerald-100 shadow-lg shadow-emerald-950/20 transition hover:bg-emerald-900/35 focus-visible:outline focus-visible:ring-2 focus-visible:ring-emerald-400 disabled:pointer-events-none disabled:opacity-40"
+            className="min-h-11 flex-1 cursor-pointer rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2.5 text-sm font-medium text-zinc-300 ring-0 transition hover:scale-[1.02] hover:border-emerald-500/80 hover:bg-emerald-500/20 hover:text-emerald-100 hover:ring-1 hover:ring-emerald-500/35 hover:shadow-md hover:shadow-black/20 active:scale-[0.98] focus-visible:outline focus-visible:ring-2 focus-visible:ring-emerald-400/90 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 active:bg-zinc-900"
           >
             Uczciwy
           </button>

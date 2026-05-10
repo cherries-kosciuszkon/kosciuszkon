@@ -13,7 +13,7 @@ function formatSessionPrompt(p: ChatSessionPrompt): string {
     : 'W tej rozmowie jesteś uczciwym sprzedawcą; rozmówca próbuje ocenić Twoją wiarygodność.'
 
   return [
-    `Jesteś ${p.sellerName} — sprzedawca na aplikacji aukcyjnej. ${roleHint}`,
+    `Jesteś ${p.sellerName} — sprzedawca na aplikacji aukcyjnej. Sprzedajesz: ${p.listedProduct.item} za ${p.listedProduct.price}. ${roleHint}`,
     '',
     p.scenario,
   ].join('\n')
