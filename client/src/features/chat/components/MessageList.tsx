@@ -1,11 +1,13 @@
 import type { ChatMessage } from '../types'
 import { MessageBubble } from './MessageBubble'
+import { TypingIndicator } from './TypingIndicator'
 
 type MessageListProps = {
   messages: ChatMessage[]
+  isTyping: boolean
 }
 
-export function MessageList({ messages }: MessageListProps) {
+export function MessageList({ messages, isTyping }: MessageListProps) {
   if (messages.length === 0) {
     return (
       <div
@@ -32,11 +34,11 @@ export function MessageList({ messages }: MessageListProps) {
         </div>
         <div className="max-w-xs">
           <p className="text-base font-medium text-zinc-100">
-            Zacznij rozmowę
+            Napisz do sprzedawcy
           </p>
           <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-            Tu pojawią się Twoje wiadomości i odpowiedzi. Napisz poniżej — bez
-            pośpiechu, w swoim tempie nauki.
+            Poniżej zobaczysz wątek z ogłoszenia — tak jak na portalu z
+            ofertami. Zadaj pytanie o przedmiot albo ustal szczegóły odbioru.
           </p>
         </div>
       </div>
@@ -47,7 +49,9 @@ export function MessageList({ messages }: MessageListProps) {
     <div className="min-h-0 flex-1 space-y-3 overflow-y-auto bg-gradient-to-b from-zinc-950 via-zinc-900/90 to-black px-4 py-4 sm:px-5">
       {messages.map((m) => (
         <MessageBubble key={m.id} message={m} />
-      ))}
+    ))}
+        {isTyping && <TypingIndicator />}
+      
     </div>
   )
 }
