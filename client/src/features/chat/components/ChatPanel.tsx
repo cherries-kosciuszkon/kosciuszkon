@@ -76,7 +76,7 @@ export function ChatPanel({ className = '', onVerdict }: ChatPanelProps) {
           </div>
         </div>
       </header>
-      <MessageList messages={messages} />
+      <MessageList messages={messages} isTyping={isSending} />
       <MessageComposer onSend={handleSend} isSending={isSending} />
       {messages.length > 1 ? (
         <div
