@@ -15,7 +15,7 @@ export function InspectLinkButton({
 }: InspectLinkButtonProps) {
   return (
     <div className="group relative mt-4 inline-flex flex-col items-start gap-1">
-      <span className="text-xs text-zinc-500">Przycisk w tresci</span>
+      <span className="text-xs text-zinc-500"></span>
       
       <button
         type="button"
@@ -26,7 +26,7 @@ export function InspectLinkButton({
       </button>
 
       <p className="text-[11px] text-zinc-500">
-        Podpis przy linku (moze byc falszywy):{' '}
+        Podpis przy linku:{' '}
         <span className="font-mono text-zinc-400">{apparentHost}</span>
       </p>
 
