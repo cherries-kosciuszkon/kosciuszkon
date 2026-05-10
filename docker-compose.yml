@@ -1,0 +1,20 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/api/Dockerfile
+    container_name: cyber_backend
+    ports:
+      - "5190:5190"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
+  client:
+    build:
+      context: .
+      dockerfile: docker/client/Dockerfile
+    container_name: cyber_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - api
